@@ -1,43 +1,52 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import "./Carousel.css";
 import { images } from "../data/CarouselData";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const Carousel = () => {
-  const [currIndex, setCurrIndex] = useState(0);
+class Carousel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currIndex: 0
+    };
+  }
 
-  const incr = () => {
+  incr = () => {
+    const { currIndex } = this.state;
     if (currIndex >= images.length - 1) {
-      setCurrIndex(0);
+      this.setState({ currIndex: 0 });
     } else {
-      setCurrIndex(currIndex + 1);
+      this.setState({ currIndex: currIndex + 1 });
     }
   };
 
-  const decr = () => {
+  decr = () => {
+    const { currIndex } = this.state;
     if (currIndex === 0) {
-      setCurrIndex(images.length - 1);
+      this.setState({ currIndex: images.length - 1 });
     } else {
-      setCurrIndex(currIndex - 1);
+      this.setState({ currIndex: currIndex - 1 });
     }
   };
 
-  return (
-    <>
+  render() {
+    const { currIndex } = this.state;
+
+    return (
       <div className="carouselContainer flex">
-        <div className="leftarrow arrowdiv flex" onClick={decr}>
+        <div className="leftarrow arrowdiv flex" onClick={this.decr}>
           <ArrowBackIosIcon className="chevron" />
         </div>
         <h2 className="title">{images[currIndex].title}</h2>
         <img src={images[currIndex].img} alt="" />
         <h4 className="text">{images[currIndex].subtitle}</h4>
-        <div className="rightarrow arrowdiv flex" onClick={incr}>
+        <div className="rightarrow arrowdiv flex" onClick={this.incr}>
           <ArrowForwardIosIcon className="chevron" />
         </div>
       </div>
-    </>
-  );
-};
+    );
+  }
+}
 
 export default Carousel;
